@@ -10,5 +10,17 @@ fi
 for f in $input
 do
 	echo -n "${f}: " 
-	./run.sh $f 2>&1 | grep most || echo "regular case"
+	out=$(./run.sh $f 2>&1)
+	ret=$?
+	echo -n "(ret $ret) "
+	if echo "$out" | grep -q most
+	then
+		echo "at most k case"
+	elif [ $ret -eq 0 ]
+	then
+		echo "regular case"
+	else
+		echo "crash"
+		echo "$out" | sed 's/^/\t> /'
+	fi
 done

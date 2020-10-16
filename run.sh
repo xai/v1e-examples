@@ -26,8 +26,9 @@ fi
 
 echo "Running $name"
 ./djdslkit-latest-linux $input | tee dot/${name}.dot
+ret=${PIPESTATUS[0]}
 
-if [[ $? -eq 0 && ! -z "$verbose" ]]
+if [[ $ret -eq 0 && ! -z "$verbose" ]]
 then
 	dot -Tpng -o dot/${name}.png dot/${name}.dot
 	if [ $? -eq 0 ]
@@ -35,8 +36,8 @@ then
 		eog dot/${name}.png &
 		exit 0
 	else
-		exit 3
+		exit 2
 	fi
 else
-	exit 2
+	exit $ret
 fi
