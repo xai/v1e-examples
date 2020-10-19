@@ -1,18 +1,15 @@
 proc combk {{in} {k}} {
-	if {$k == 0 || [llength $in] < $k} {
-		return ""
+	if {$k == 0} {
+		return [list {}]
+	} elseif {[llength $in] < $k} {
+		return {}
 	} elseif {[llength $in] == $k} {
-		return $in
+		return [list $in]
 	}
 
-	set out { }
 	set short_in [lassign $in x]
 
-	if {$k == 1} {
-		lappend out $x
-	}
-
-	lappend out [combk $short_in $k]
+	set out [combk $short_in $k]
 
 	set c [combk $short_in [expr $k - 1]]
 	foreach y $c {
@@ -22,7 +19,8 @@ proc combk {{in} {k}} {
 	return $out
 }
 
-set cands {A B C D}
-set combinations [list [combk $cands 3]]
+set cands {A B C D E F}
+set combinations [combk $cands 3]
 puts $combinations
+puts [llength $combinations]
 
