@@ -23,5 +23,6 @@ proc combk {{in} {k}} {
 }
 
 set cands {A B C D}
-set combinations [combk $cands 3]
+set combinations [list [combk $cands 3]]
 puts $combinations
+
